@@ -139,6 +139,54 @@ lo que debo hacer para cambiar entre una coleccion y otra es solo colocar el nom
         )
 
 
+
+- Agregar un campo a todos los registros con un valor por por defecto o quemado:
+
+        db.usuarios.updateMany(
+            {},
+            {
+                $set: {genero:"M"}      // Agrego un nuevo campo con el valor "M"
+            }
+        )
+
+
+- Cambiar el nombre de un campo a un registro (renombrar un campo):
+
+        db.<coleccion>.updateOne(
+            { <filtro> },
+            { $rename: { "campoViejo": "campoNuevo" } }
+        )
+
+
+        db.usuarios.updateOne(
+            {nonbre: "Valentina"},
+            {$rename: {"nonbre": "nombre"}}
+        )
+
+
+- Mostrar los registros que no poseen un campo:
+
+        // Solo los registros que no tienen campo salario
+        
+        db.usuarios.find({
+            salario: {$exists: false}       
+        })
+
+
+- Eliminar un campo de una coleccion, aplicado a todos los registros sin filtros:
+
+        db.usuarios.updateMany(
+            {},
+            {
+                $unset: {
+                    telefono: "",       // Eliminar campo telefono
+                    telfono: ""         // Eliminar campo telfono
+                }
+            }
+        )
+
+
+
 - Borrar un solo registro:
 
         db.clientes.deleteOne({nombre: "Ana"})
@@ -261,6 +309,18 @@ Ejemplo: Buscar clientes que tengan edad menos de 25 O ciudad:'Boston'
                 { edad: { $lt: 25 } },           // Menor a 25 
                 { ciudad: "Boston" }             // O ciudad sea Boston 
             ]
+        })
+
+
+### Regex
+
+Es parecido a un LIKE en SQL.
+
+Ejemplo: nombres que inicien con la 'A'
+
+        db.clientes.find({
+            nombre:
+            {$regex: /A/}
         })
 
 
