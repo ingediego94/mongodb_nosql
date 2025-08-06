@@ -10,6 +10,16 @@ mongoose.connect(process.env.MONGO_URL)
 .then(() => console.log('Conectado a Mongo'))
 .catch(err => console.error('Error en la conexion', err));
 
+
+// port
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo por el puerto 3000`);
+    
+});
+
+
+
 // Endpoint encargado de insertar un nuevo cliente.
 app.post('/clientes', async(req, res) => {
     try {
@@ -52,9 +62,9 @@ app.put('/clientes/:id', async(req, res) => {
         res.json(clienteActualizado);
 
     } catch(error){
-        res.status(400).json({error: 'Error al actualizar el cliente.', detalles:err})
+        res.status(400).json({error: 'Error al actualizar el cliente.', detalles:error})    // modifique esta
     }
-})
+});
 
 
 
@@ -73,9 +83,3 @@ app.delete('/clientes/:id', async (req, res) => {
 
 
 
-// port
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo por el puerto 3000`);
-    
-})
